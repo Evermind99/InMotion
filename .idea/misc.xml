@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/jlwie/AndroidStudioProjects/InMotion2/app/src/main/res/layout/activity_main.xml" value="0.5555555555555556" />
+        <entry key="..\:/Users/jlwie/AndroidStudioProjects/InMotion2/app/src/main/res/drawable/ball.xml" value="0.155" />
+        <entry key="..\:/Users/jlwie/AndroidStudioProjects/InMotion2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.156" />
+        <entry key="..\:/Users/jlwie/AndroidStudioProjects/InMotion2/app/src/main/res/layout/activity_main.xml" value="0.2222222222222222" />
+        <entry key="..\:/Users/jlwie/AndroidStudioProjects/InMotion2/app/src/main/res/layout/activity_rotation.xml" value="0.24871794871794872" />
       </map>
     </option>
   </component>

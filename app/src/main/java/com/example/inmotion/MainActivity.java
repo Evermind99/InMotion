@@ -1,18 +1,17 @@
 package com.example.inmotion;
 
-import static java.lang.Math.abs;
+import android.content.Intent;
+import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.os.Bundle;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.widget.TextView;
-
-import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -285,5 +284,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // register this class as a listener for the orientation and
         // accelerometer sensors
 
+    }
+
+    public void startRotationTest(View view) {
+        Intent intent = new Intent(this, RotationActivity.class);
+        startActivity(intent);
     }
 }
