@@ -52,18 +52,27 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //viewSensors = findViewById(R.id.ViewSensors);
-        viewX = findViewById(R.id.ViewX);
-        viewY = findViewById(R.id.ViewY);
-        viewZ = findViewById(R.id.ViewZ);
-        viewSteps = findViewById(R.id.ViewSteps);
-        viewStepsDetector = findViewById(R.id.ViewStepsDetector);
-
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         lastUpdate = System.currentTimeMillis();
 
         sensorManager.registerListener((SensorEventListener) this,
-                sensorManager.getDefaultSensor(Sensor.TYPE_ALL),
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+
+
+
+
+        //viewSensors = findViewById(R.id.ViewSensors);
+        viewX = findViewById(R.id.ViewX);
+        viewY = findViewById(R.id.ViewY);
+        viewZ = findViewById(R.id.ViewZ);
+        //viewSteps = findViewById(R.id.ViewSteps);
+        //viewStepsDetector = findViewById(R.id.ViewStepsDetector);
+
+
+
+        sensorManager.registerListener((SensorEventListener) this,
+                sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER),
                 SensorManager.SENSOR_DELAY_NORMAL);
 
 
@@ -127,11 +136,41 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         chart.setDrawBorders(false);
     }
 
+
+
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            getAccelerometer(event);
+
+            float[] values = event.values;
+
+            //Get acceleration values
+            float x = values[0];
+            float y = values[1];
+            float z = values[2];
+
+            long actualTime = event.timestamp;
+            if (actualTime - lastUpdate > 500000000){
+                //Update x view
+                lastUpdate = actualTime;
+                viewX.setText("X Acceleration: \n" + x);
+
+                //Update y view
+                viewY.setText("Y Acceleration: \n" + y);
+
+                //Update z view
+                viewZ.setText("Z Acceleration: \n" + z);
+
+
+                updateGraph(xChart, x);
+                updateGraph(yChart, y);
+                updateGraph(zChart, z);
+
+            }
         }
+
+
+
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             totalSteps = (int) event.values[0];
             int currentSteps = totalSteps - prevTotalSteps;
@@ -164,34 +203,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
     private void getAccelerometer(SensorEvent event) {
-        float[] values = event.values;
-        // Movement
-        float x = values[0];
-        float y = values[1];
-        float z = values[2];
 
-        //float accelationSquareRoot = (x * x + y * y + z * z) / (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
-        long actualTime = event.timestamp;
-        float lastX = 0;
-        if (actualTime - lastUpdate > 500000000 //| abs(x - lastX) < 1
-        ){
-            //Update x view
-            lastX = x;
-            lastUpdate = actualTime;
-            viewX.setText("X Acceleration: \n" + x);
-
-            //Update y view
-            viewY.setText("Y Acceleration: \n" + y);
-
-            //Update z view
-            viewZ.setText("Z Acceleration: \n" + z);
-
-
-            updateGraph(xChart, x);
-            updateGraph(yChart, y);
-            updateGraph(zChart, z);
-
-        }
     }
 
 

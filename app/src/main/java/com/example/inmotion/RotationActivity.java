@@ -21,8 +21,8 @@ public class RotationActivity extends AppCompatActivity implements SensorEventLi
 
     private SensorManager sensorManager;
 
-    private float xPos, xAccel, xVel = 0.0f;
-    private float yPos, yAccel, yVel = 0.0f;
+    private float xPos = 0.0f;
+    private float yPos = 0.0f;
     private float xMax, yMax;
     private Bitmap ball;
 
@@ -40,7 +40,6 @@ public class RotationActivity extends AppCompatActivity implements SensorEventLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_rotation);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorManager.registerListener((SensorEventListener) this,
@@ -68,7 +67,7 @@ public class RotationActivity extends AppCompatActivity implements SensorEventLi
         //viewRoll = findViewById(R.id.ViewRoll);
     }
 
-        @Override
+    @Override
     public void onSensorChanged(SensorEvent event) {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
                 mGravity = event.values;
@@ -82,18 +81,18 @@ public class RotationActivity extends AppCompatActivity implements SensorEventLi
                 if (success) {
                     float orientation[] = new float[3];
                     SensorManager.getOrientation(U, orientation);
+
                     if(startOrientation == null){
                         startOrientation = new float[orientation.length];
                         //Copy orientation array to start orientation
                         System.arraycopy(orientation,0, startOrientation, 0, orientation.length );
                     }
-                    //float azimuth = orientation[0]; // orientation contains: azimuth, pitch and roll
-
+                    // orientation contains: azimuth, pitch and roll
                     //convert from radian to degree
                     float pitch = (float) Math.toDegrees( orientation[1] - startOrientation[1]);
                     float roll = (float) Math.toDegrees(  orientation[2] - startOrientation[2]);
-                    xPos = (float) ((xMax / 2) + (roll*xMax)/180);
-                    yPos = (float) ((yMax / 2) - (pitch*yMax)/180);
+                    xPos = (float) ((xMax / 2) + (roll*xMax)/200);
+                    yPos = (float) ((yMax / 2) - (pitch*yMax)/200);
 
                     if (xPos > xMax) {
                         xPos = xMax;
